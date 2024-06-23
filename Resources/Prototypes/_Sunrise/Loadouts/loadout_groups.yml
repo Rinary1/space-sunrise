@@ -1,7 +1,7 @@
 - type: loadoutGroup
   id: Socks
   name: loadout-group-socks
-  minLimit: 0
+  minLimit: 1
   loadouts:
   - ThighWhiteSocks
   - ShortWhiteSocks
@@ -41,7 +41,7 @@
 - type: loadoutGroup
   id: Bra
   name: loadout-group-bra
-  minLimit: 0
+  minLimit: 1
   loadouts:
   - StraplessBra
   - WhiteNekoBra
@@ -59,7 +59,7 @@
 - type: loadoutGroup
   id: Pants
   name: loadout-group-pants
-  minLimit: 0
+  minLimit: 1
   loadouts:
   - StraplessWomanPants
   - BoxersManPants
@@ -123,8 +123,52 @@
   - BlueShieldJumpskirt
 
 - type: loadoutGroup
-  id: Bodycam
+  id: SecurityTrinkets
+  name: loadout-group-security-trinkets
+  minLimit: 0
+  maxLimit: 3
+  loadouts:
+  - SecurityBodycam
+  - SecurityWhistle
+  - SecurityRadioHandheld
+  - SecurityTourniquet
+  - SecurityWeaponMeleeNeedle
+  - SecurityHoloprojector
+
+- type: loadoutGroup
+  id: SecurityBodycam
   name: loadout-group-bodycam
   minLimit: 0
   loadouts:
-  - Bodycam
+  - SecurityBodycam
+
+- type: loadoutGroup
+  id: CorporateLaw
+  name: loadout-group-corporate-law
+  minLimit: 0
+  loadouts:
+  - CorporateLaw
+
+- type: loadoutGroup
+  id: CentCommOperatorJumpsuit
+  name: loadout-group-centcomm-operator-jumpsuit
+  loadouts:
+  - CentCommOfficerJumpsuit
+  - CentCommOfficerJumpskirt
+  - CentCommOfficialJumpsuit
+  - CentCommOfficialJumpskirt
+
+- type: loadoutGroup
+  id: CentCommOperatorHats
+  name: loadout-group-centcomm-operator-head-hat
+  loadouts:
+  - HeadHatBeretCentcomNaval
+  - HeadHatCentcomcap
+
+- type: loadoutGroup
+  id: ChiefEngineerBackpack
+  name: loadout-group-chief-engineer-backpack
+  loadouts:
+  - ChiefEngineerBackpack
+  - ChiefEngineerSatchel
+  - ChiefEngineerDuffel

@@ -5,6 +5,7 @@
   - LawyerJumpsuit
   - CommonBackpack
   - Trinkets
+  - Survival
   - Bra
   - Pants
   - Socks
@@ -14,6 +15,7 @@
   groups:
   - CommonBackpack
   - Trinkets
+  - Survival
   - Bra
   - Pants
   - Socks
@@ -24,7 +26,8 @@
   - BrigmedicJumpsuit
   - BrigmedicBackpack
   - Trinkets
-  - Bodycam
+  - SecurityTrinkets
+  - SurvivalSecurity
   - Bra
   - Pants
   - Socks
@@ -32,8 +35,11 @@
 - type: roleLoadout
   id: JobCentCommOfficial
   groups:
+  - CentCommOperatorJumpsuit
+  - CentCommOperatorHats
   - Trinkets
-  - Bodycam
+  - SecurityBodycam
+  - Survival
   - Bra
   - Pants
   - Socks
@@ -41,8 +47,10 @@
 - type: roleLoadout
   id: JobCentCommOperator
   groups:
+  - CentCommOperatorJumpsuit
+  - CentCommOperatorHats
   - Trinkets
-  - Bodycam
+  - Survival
   - Bra
   - Pants
   - Socks
@@ -52,8 +60,9 @@
   groups:
   - BlueShieldJumpsuit
   - BlueShieldBackpack
-  - Bodycam
+  - SecurityBodycam
   - Trinkets
+  - Survival
   - Bra
   - Pants
   - Socks
