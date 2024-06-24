@@ -1,86 +1,66 @@
-using Robust.Shared.GameObjects;
-using Robust.Shared.Serialization.Manager.Attributes;
-using Robust.Shared.Serialization;
-using Robust.Shared.ViewVariables;
-using System;
 using System.Collections.Generic;
+using Robust.Shared.GameObjects;
+using Robust.Shared.GameStates;
+using Robust.Shared.Serialization.Manager.Attributes;
+using Robust.Shared.ViewVariables;
 
 namespace Content.Shared._Sunrise.TicketMachine
 {
-    [RegisterComponent]
-    public partial class TicketMachineComponent : Component
+    [RegisterComponent, NetworkedComponent]
+    public sealed partial class TicketMachineComponent : Component
     {
+        public enum TicketMachineVisualState
+        {
+            inactive,
+            ticketmachine_0,
+            ticketmachine_50,
+            ticketmachine_100
+        }
+
+        [ViewVariables(VVAccess.ReadWrite)]
+        [DataField("ticketNumber")]
+        public int TicketNumber { get; set; } = 0;
+
+        [ViewVariables(VVAccess.ReadWrite)]
+        [DataField("currentNumber")]
+        public int CurrentNumber { get; set; } = 0;
+
+        [ViewVariables(VVAccess.ReadWrite)]
+        [DataField("maxNumber")]
+        public int MaxNumber { get; set; } = 100;
+
+        [ViewVariables(VVAccess.ReadWrite)]
+        [DataField("cooldown")]
+        public float Cooldown { get; set; } = 50f;
+
+        [ViewVariables(VVAccess.ReadWrite)]
+        [DataField("ready")]
+        public bool Ready { get; set; } = true;
+
+        [ViewVariables(VVAccess.ReadWrite)]
+        [DataField("dispenseEnabled")]
+        public bool DispenseEnabled { get; set; } = true;
+
+        [ViewVariables(VVAccess.ReadWrite)]
+        [DataField("emagged")]
+        public bool Emagged { get; set; } = false;
+
         [ViewVariables]
-        public const int MaxTicketNumber = 99;
+        public List<EntityUid> TicketHolders { get; } = new();
 
         [ViewVariables]
-        public int CurrentTicketNumber { get; private set; } = 1;
+        public List<EntityUid> Tickets { get; } = new();
 
-        private readonly List<EntityUid> _issuedTickets = new List<EntityUid>();
+        public bool HasTicket(EntityUid user) => TicketHolders.Contains(user);
 
-        [DataField("inactiveState")]
-        public string? InactiveState;
+        public void AddTicketHolder(EntityUid user) => TicketHolders.Add(user);
 
-        [DataField("ticketMachine100State")]
-        public string? TicketMachine100State;
+        public void AddTicket(EntityUid ticket) => Tickets.Add(ticket);
 
-        [DataField("ticketMachine50State")]
-        public string? TicketMachine50State;
-
-        [DataField("ticketMachine0State")]
-        public string? TicketMachine0State;
-
-        public void AddTicket(EntityUid ticketId)
+        public void ClearTickets()
         {
-            _issuedTickets.Add(ticketId);
+            TicketHolders.Clear();
+            Tickets.Clear();
         }
-
-        public void BurnTickets(TimeSpan currentTime)
-        {
-            var entityManager = IoCManager.Resolve<IEntityManager>();
-            foreach (var ticketId in _issuedTickets)
-            {
-                if (entityManager.TryGetComponent(ticketId, out TicketComponent? ticketComponent))
-                {
-                    ticketComponent?.Burn(currentTime);
-                }
-            }
-            _issuedTickets.Clear();
-        }
-
-        public void RefillMachine(TimeSpan currentTime)
-        {
-            BurnTickets(currentTime);
-            SetCurrentTicketNumber(0);
-        }
-
-        public void SetCurrentTicketNumber(int number)
-        {
-            CurrentTicketNumber = number;
-        }
-    }
-	
-    [Serializable, NetSerializable]
-    public enum VendingMachineVisuals
-    {
-        VisualState
-    }
-
-    [Serializable, NetSerializable]
-    public enum TicketMachineVisualState
-    {
-        inactive,
-        ticketmachine_100,
-        ticketmachine_50,
-        ticketmachine_0,
-    }
-
-    [Serializable, NetSerializable]
-    public enum TicketMachineVisualLayers : byte
-    {
-        Base,
-        Numbers_1,
-        Numbers_2,
-        Numbers_3
     }
 }

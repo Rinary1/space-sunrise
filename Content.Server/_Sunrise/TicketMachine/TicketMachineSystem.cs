@@ -1,93 +1,110 @@
-using System.Numerics;
-using Robust.Shared.GameObjects;
-using Robust.Shared.IoC;
-using Robust.Shared.Map;
-using Robust.Shared.Timing;
-using System;
-using System.Collections.Generic;
 using Content.Shared._Sunrise.TicketMachine;
 using Content.Shared.Interaction;
+using Robust.Shared.GameObjects;
+using Robust.Shared.IoC;
+using Robust.Shared.Audio;
+using Robust.Shared.Player;
 using Robust.Shared.Random;
-using Content.Shared.Throwing;
-using Robust.Shared.Maths;
+using Robust.Shared.Prototypes;
+using Robust.Shared.Map;
+using Robust.Shared.Utility;
+using Robust.Server.GameObjects;
+using Robust.Shared.Log;
+using Robust.Shared.Localization;
+using System.Linq;
+using System.Numerics;
 
 namespace Content.Server._Sunrise.TicketMachine
 {
-    public class TicketMachineSystem : EntitySystem
+    public sealed partial class TicketMachineSystem : EntitySystem
     {
-        [Dependency] private readonly IGameTiming _gameTiming = default!;
         [Dependency] private readonly IEntityManager _entityManager = default!;
-        [Dependency] private readonly ThrowingSystem _throwingSystem = default!;
         [Dependency] private readonly IRobustRandom _random = default!;
 
         public override void Initialize()
         {
             base.Initialize();
-            SubscribeLocalEvent<TicketMachineComponent, AfterInteractEvent>(OnAfterInteract);
+            SubscribeLocalEvent<TicketMachineComponent, InteractHandEvent>(OnInteractHand);
         }
 
-        private void OnAfterInteract(EntityUid uid, TicketMachineComponent machine, AfterInteractEvent args)
+        private void OnInteractHand(EntityUid uid, TicketMachineComponent component, InteractHandEvent args)
         {
-            if (args.Target is not { } target || !args.CanReach || args.Handled)
-                return;
-
-            IssueTicket(machine, args.User, args.ClickLocation.ToMap(EntityManager));
-            UpdateMachineState(machine);
-        }
-
-        public void IssueTicket(TicketMachineComponent machine, EntityUid user, MapCoordinates clickLocation)
-        {
-            if (machine.CurrentTicketNumber >= TicketMachineComponent.MaxTicketNumber)
+            if (!component.Ready)
             {
+                // Inform the user that the machine is not ready
                 return;
             }
 
-            machine.SetCurrentTicketNumber(machine.CurrentTicketNumber + 1);
-
-            // Spawn the ticket at the machine's location
-            var spawnCoordinates = Transform(machine.Owner).Coordinates;
-            var ticket = _entityManager.SpawnEntity("Ticket", spawnCoordinates);
-
-            if (_entityManager.TryGetComponent(ticket, out TicketComponent? ticketComponent))
+            if (!component.DispenseEnabled)
             {
-                var currentTime = _gameTiming.CurTime;
-                ticketComponent.SetNumber(machine.CurrentTicketNumber, currentTime);
+                // Inform the user that the machine is disabled
+                return;
             }
 
-            machine.AddTicket(ticket);
+            if (component.TicketNumber >= component.MaxNumber)
+            {
+                // Inform the user that the ticket supply is depleted
+                return;
+            }
 
-            // Use ThrowingSystem to throw the ticket from the machine
-            var range = 0.5f; // Set your desired range
-            var direction = new Vector2(_random.NextFloat(-range, range), _random.NextFloat(-range, range));
-            var force = 10f; // Set your desired force
+            if (component.HasTicket(args.User) && !component.Emagged)
+            {
+                // Inform the user that they already have a ticket
+                return;
+            }
 
-            _throwingSystem.TryThrow(ticket, direction, force);
+            // SoundSystem.Play(Filter.Pvs(uid), "/Audio/Machines/terminal_insert_disk.ogg", uid);
+            component.TicketNumber++;
+            component.AddTicketHolder(args.User);
+
+            var ticket = _entityManager.SpawnEntity("TicketMachineTicket", _entityManager.GetComponent<TransformComponent>(uid).Coordinates);
+            component.AddTicket(ticket);
+
+            // Assign ticket number and other properties here
         }
 
-        private void UpdateMachineState(TicketMachineComponent machine)
+        private void BurnTickets(TicketMachineComponent machine)
         {
-            var currentTicketNumber = machine.CurrentTicketNumber;
-            TicketMachineVisualState state;
+            foreach (var ticketUid in machine.Tickets)
+            {
+                _entityManager.QueueDeleteEntity(ticketUid);
+            }
+            machine.ClearTickets();
+        }
 
-            if (currentTicketNumber == 0)
+        private void UpdateIconState(EntityUid uid, TicketMachineComponent component)
+        {
+            if (_entityManager.TryGetComponent(uid, out SpriteComponent? sprite))
             {
-                state = TicketMachineVisualState.inactive;
+                TicketMachineComponent.TicketMachineVisualState state = component.TicketNumber switch
+                {
+                    <= 49 => TicketMachineComponent.TicketMachineVisualState.ticketmachine_100,
+                    <= 99 => TicketMachineComponent.TicketMachineVisualState.ticketmachine_50,
+                    _ => TicketMachineComponent.TicketMachineVisualState.ticketmachine_0
+                };
+                sprite.LayerSetState(0, state.ToString());
             }
-            else if (currentTicketNumber >= TicketMachineComponent.MaxTicketNumber)
-            {
-                state = TicketMachineVisualState.ticketmachine_0;
-            }
-            else if (currentTicketNumber >= 50)
-            {
-                state = TicketMachineVisualState.ticketmachine_50;
-            }
-            else
-            {
-                state = TicketMachineVisualState.ticketmachine_100;
-            }
+        }
 
-            var ev = new VisualsChangedEvent { VisualState = state };
-            RaiseLocalEvent(machine.Owner, ev, true);
+        private void HandleMapText(EntityUid uid, TicketMachineComponent component)
+        {
+            if (_entityManager.TryGetComponent(uid, out MapTextComponent? mapTextComponent))
+            {
+                if (!component.DispenseEnabled)
+                {
+                    mapText.OffsetX = 6;
+                    mapText.MapText = "<font face='Small Fonts' color='#960b0b'>OFF</font>";
+                    return;
+                }
+
+                mapText.OffsetX = component.TicketNumber switch
+                {
+                    <= 9 => 13,
+                    <= 99 => 10,
+                    _ => 8,
+                };
+                mapText.MapText = $"<font face='Small Fonts'>{component.TicketNumber}</font>";
+            }
         }
     }
 }
