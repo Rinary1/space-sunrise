@@ -16,7 +16,7 @@ public sealed class FootPrintsSystem : EntitySystem
     [Dependency] private readonly InventorySystem _inventorySystem = default!;
     [Dependency] private readonly StandingStateSystem _standing = default!;
 
-    private const float AlphaReduce = 0.15f;
+    private const float AlphaReduce = 0.05f;
 
     private List<KeyValuePair<EntityUid, uint>> _storedDecals = new();
     private const int MaxStoredDecals = 750;

@@ -28,7 +28,7 @@ public sealed partial class FootPrintsComponent : Component
     };
 
     [DataField]
-    public Vector2 OffsetCenter = new(-0.5f, -1f);
+    public Vector2 OffsetCenter = new(-0.5f, -1.0f);
 
     [DataField]
     public Vector2 OffsetPrint = new(0.1f, 0f);
