@@ -162,3 +162,4 @@
     solution: puddle
   - type: BadDrink
   - type: IgnoresFingerprints
+  - type: PuddleFootPrints # Sunrise-edit
