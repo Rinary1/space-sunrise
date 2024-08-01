@@ -18,6 +18,7 @@ public sealed partial class CriminalRecordsCartridgeUiFragment : BoxContainer
     private readonly IEntityManager _entManager;
     private readonly IPrototypeManager _prototypeManager;
     private readonly SpriteSystem _spriteSystem;
+    
     public CriminalRecordsCartridgeUiFragment()
     {
         RobustXamlLoader.Load(this);
@@ -29,6 +30,8 @@ public sealed partial class CriminalRecordsCartridgeUiFragment : BoxContainer
         Orientation = LayoutOrientation.Vertical;
         HorizontalExpand = true;
         VerticalExpand = true;
+        
+        Update.OnPressed += _ => UpdateState(new CriminalRecordsCartridgeUiState(new List<(GeneralStationRecord, CriminalRecord)>()));
 
         UpdateState(new CriminalRecordsCartridgeUiState(new List<(GeneralStationRecord, CriminalRecord)>()));
     }
@@ -36,6 +39,9 @@ public sealed partial class CriminalRecordsCartridgeUiFragment : BoxContainer
 
     public void UpdateState(CriminalRecordsCartridgeUiState state)
     {
+        Criminals.DisposeAllChildren();
+        Criminals.RemoveAllChildren();
+        
         foreach (var (stationRecord, criminalRecord) in state.Criminals)
         {
             AddCriminal(stationRecord, criminalRecord);

@@ -9,11 +9,12 @@
         </PanelContainer>
       </controls:StripeBack>
       <BoxContainer Orientation="Horizontal" HorizontalExpand="True" Margin="0 0 0 10">
-        <Label Text="Record Filters:" Margin="20 0 0 0"/>
+        <Label Name="RecordFilters" Text="{Loc 'criminal-records-cartridge-filters'}" Margin="20 0 0 0"/>
         <Control HorizontalExpand="True"/>
-        <CheckBox Text="Show Wanted" Pressed="true"/>
+        <CheckBox Name="ShowWanted" Text="{Loc 'criminal-records-cartridge-wanted'}" Pressed="true"/>
         <Control HorizontalExpand="True"/>
-        <CheckBox Text="Show Detained" Pressed="true" Margin="0 0 20 0" />
+        <CheckBox Name="ShowDetained" Text="{Loc 'criminal-records-cartridge-detained'}" Pressed="true" Margin="0 0 20 0" />
+        <Button Name="Update" Text="{Loc 'criminal-records-cartridge-update'}" Margin="0 0 20 0"/>
       </BoxContainer>
       <PanelContainer StyleClasses="LowDivider"/>
       <BoxContainer Orientation="Horizontal" HorizontalExpand="True" VerticalExpand="True">
