@@ -1,4 +1,5 @@
 ﻿using Robust.Shared.Prototypes;
+using Content.Shared.Dataset;
 using Robust.Shared.Random;
 
 namespace Content.Server._Sunrise.NameGenerators;
@@ -20,10 +21,13 @@ public sealed class ShuttleNameGeneratorSystem : EntitySystem
 
     private void OnComponentInit(EntityUid uid, ShuttleNameGeneratorComponent component, ComponentInit args)
     {
+        if (!_prototype.TryIndex<LocalizedDatasetPrototype>(component.NameFragments, out var NameDataset))
+            return;
+        
         if (!TryComp<MetaDataComponent>(uid, out var metaDataComponent))
             return;
 
-        var prefix = _random.Pick(_prototypeManager.Index(component.NameFragments).Values);
+        var prefix = _random.Pick(NameDataset.Values);
         _meta.SetEntityName(
             uid,
             (component.EnableFragments ? component.FactionIdentificator + prefix + " - " : component.FactionIdentificator + (component.HasIdentificator ? "" : " ")) +
