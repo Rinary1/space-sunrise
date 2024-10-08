@@ -19,5 +19,5 @@ public sealed partial class ShuttleNameGeneratorComponent : Component
     public bool HasIdentificator;
 
     [DataField]
-    public ProtoId<DatasetPrototype> NameFragments = "ru_shuttle_prefixes";
+    public ProtoId<DatasetPrototype> NameDataset = "ru_shuttle_prefixes";
 }

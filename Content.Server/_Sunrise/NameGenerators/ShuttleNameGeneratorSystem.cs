@@ -21,7 +21,7 @@ public sealed class ShuttleNameGeneratorSystem : EntitySystem
 
     private void OnComponentInit(EntityUid uid, ShuttleNameGeneratorComponent component, ComponentInit args)
     {
-        if (!_prototype.TryIndex<LocalizedDatasetPrototype>(component.NameFragments, out var NameDataset))
+        if (!_prototypeManager.TryIndex<LocalizedDatasetPrototype>(component.NameDataset, out var NameDataset))
             return;
         
         if (!TryComp<MetaDataComponent>(uid, out var metaDataComponent))
