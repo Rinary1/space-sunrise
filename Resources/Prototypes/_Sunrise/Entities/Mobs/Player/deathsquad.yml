@@ -1,7 +1,6 @@
 - type: entity
-  name: Оперативник эскадрона смерти
+  name: Death Squad operative
   parent: MobHuman
-  suffix: SV | ДСО
   id: MobHumanDeathsquad
   components:
   - type: GhostRole
@@ -71,9 +70,8 @@
       path: /Audio/Items/crowbar.ogg
 
 - type: entity
-  name: Лидер эскадрона смерти
+  name: Death Squad leader
   parent: MobHuman
-  suffix: SV | ДСО
   id: MobHumanDeathsquadLeader
   components:
   - type: Loadout
@@ -125,36 +123,3 @@
       true
     useSound:
       path: /Audio/Items/crowbar.ogg
-
-- type: entity
-  name: Офицер Специальных Операций
-  parent: MobHuman
-  suffix: SV | ДСО
-  id: MobHumanOSO
-  components:
-  - type: Loadout
-    prototypes: [DeathsquadOSOSV]
-  - type: Stamina
-    critThreshold: 200
-  - type: MobState
-  - type: MobThresholds
-    thresholds:
-      0: Alive
-      150: Critical
-      200: Dead
-  - type: NpcFactionMember
-    factions:
-    - DeathSquadron
-  - type: SolutionRegeneration
-    solution: chemicals
-    generated:
-      reagents:
-      - ReagentId: ExperimentalStimulantsSV
-        Quantity: 0.25
-  - type: ZombieImmune
-  - type: MindShield
-  - type: AutoImplant
-    implants:
-    - TrackingImplantERT
-    - TrackingImplantEpsilon
-    - FreedomImplant
