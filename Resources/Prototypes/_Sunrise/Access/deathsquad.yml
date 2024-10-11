@@ -1,7 +1,7 @@
 - type: accessLevel
   id: DSO
-  name: ДСО
+  name: id-card-access-level-dso
 
 - type: accessLevel
   id: HDSO
-  name: командование ДСО
+  name: id-card-access-level-hdso
