@@ -335,3 +335,26 @@
     sprite: _Sunrise/Clothing/OuterClothing/Coats/atmosian.rsi
   - type: Clothing
     sprite: _Sunrise/Clothing/OuterClothing/Coats/atmosian.rsi
+    
+- type: entity
+  parent: [ ClothingOuterCoatSpaceAsshole, BaseMajorContraband ]
+  id: ClothingOuterCoatSpaceAssholeDSO
+  name: офицерская куртка
+  description: Укрепленная куртка, способная защитить вас почти от чего-угодно. Носитель этого или отъявленный головорез, либо очень важная фигура.
+  components:
+  - type: Storage
+    maxItemSize: Huge
+    grid:
+    - 0,0,3,5
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.5
+        Slash: 0.5
+        Piercing: 0.5
+        Heat: 0.5
+        Caustic: 0.9
+        Radiation: 0.5
+  - type: ExplosionResistance
+    damageCoefficient: 0.7
+  - type: GroupExamine

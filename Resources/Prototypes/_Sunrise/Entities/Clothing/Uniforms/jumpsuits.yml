@@ -207,3 +207,16 @@
   - type: Clothing
     sprite: _Sunrise/Clothing/Uniforms/Jumpsuit/adidas-white.rsi
 
+- type: entity
+  parent: [ ClothingUniformJumpsuitCentcomOfficerBlack, BaseMajorContraband ]
+  id: ClothingUniformJumpsuitCentcomOfficerBlackDSO
+  name: униформа офицера специальных операций
+  description: Чёрная униформа Офицера Специальных Операций, ничего такого. Хотя... Если у вас есть время читать это, то уже поздно...
+  components:
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.9
+        Slash: 0.9
+        Piercing: 0.9
+        Heat: 0.9

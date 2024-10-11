@@ -75,3 +75,19 @@
     sprite: Clothing/Ears/Headsets/command.rsi
   - type: Clothing
     sprite: Clothing/Ears/Headsets/command.rsi
+
+- type: entity
+  parent: ClothingHeadsetAltCentCom
+  id: ClothingHeadsetAltDSO
+  name: полноразмерная гарнитура ДСО
+  description: Модифицированный модульный интерком, надеваемый на голову. Принимает ключи шифрования.
+  components:
+  - type: Headset
+  - type: EncryptionKeyHolder
+    keySlots: 5
+  - type: ContainerFill
+    containers:
+      key_slots:
+      - EncryptionKeyEpsilon
+      - EncryptionKeyCentCom
+      - EncryptionKeyStationMaster

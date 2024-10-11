@@ -80,3 +80,13 @@
   - type: Tag
     tags:
     - WhitelistChameleon
+    
+- type: entity
+  parent: [ClothingEyesGlassesCommand, ShowSecurityIcons]
+  id: ClothingEyesGlassesSunglassesHUDDSO
+  name: солнцезащитные очки ДСО
+  description: Солнцезащитные Очки Сил Специальных Операций, ничего такого. Вряд-ли найдёшь подобные на чёрном рынке...
+  components:
+  - type: SolutionScanner
+  - type: EyeProtection
+  - type: FlashImmunity 

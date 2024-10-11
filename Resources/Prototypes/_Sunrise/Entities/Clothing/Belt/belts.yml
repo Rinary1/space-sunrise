@@ -95,3 +95,18 @@
     sprite: _Sunrise/Clothing/Belt/webbing.rsi
   - type: ExplosionResistance
     damageCoefficient: 0.5
+
+- type: entity
+  parent: ClothingBeltHolster
+  id: ClothingBeltHolsterDSO
+  name: расширенная плечевая кобура
+  description: 'Расширенная кобура для ношения револьвера и боеприпасов. ВНИМАНИЕ: Только для крутых.'
+  suffix: SV | ДСО
+  components:
+  - type: Sprite
+    sprite: Clothing/Belt/holster.rsi
+  - type: Clothing
+    sprite: Clothing/Belt/holster.rsi
+  - type: Storage
+    grid:
+    - 0,0,5,3

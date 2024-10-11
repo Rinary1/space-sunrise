@@ -50,3 +50,11 @@
     sprite: _Sunrise/Clothing/Shoes/cptshoes.rsi
   - type: Clothing
     sprite: _Sunrise/Clothing/Shoes/cptshoes.rsi
+    
+- type: entity
+  parent: ClothingShoesCentcomBlack
+  id: ClothingShoesCentcomBlackDSO
+  name: обувь офицера специальных операций
+  description: Кожаная, чёрная, высококачественная обувь, вряд-ли найти подобные на чёрном рынке...
+  components:
+  - type: NoSlip
