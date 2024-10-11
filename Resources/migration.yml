@@ -466,3 +466,4 @@ ClothingOuterHardsuitSecurity: ClothingOuterHardsuitSecuritySunrise
 ClothingHeadHelmetHardsuitSecurity: ClothingHeadHelmetHardsuitSecuritySunrise
 EffectHearts: null
 ConveyorBelt: null
+RandomIan: SpawnMobCorgi # RandomIan is dublicate of SpawnMobCorgi
